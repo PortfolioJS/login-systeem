@@ -34,7 +34,7 @@ if ($password === $confirmpassword) {
 if ($equalpasswords === false) {
   header('Location: /login-systeem/makeaccount.php?action=passwordsunequal');
   exit;
-} elseif ($equalpasswords === true) { //als de ingevulde wachtwoorden overeenstemmen wordt het proces vervolgd
+} else { //als de ingevulde wachtwoorden overeenstemmen wordt het proces vervolgd
 
   //de pdo connectie (die wordt aangeroepen bij het creëren van een nieuw database-object)
   $dbconnection = new DatabaseConnection;
@@ -47,7 +47,7 @@ if ($equalpasswords === false) {
   if ($user == True) {
     header('Location: /login-systeem/makeaccount.php?action=usernamealreadyexists');
     exit;
-  } else if ($user == False) {
+  } else {
     //het ingevulde wachtwoord wordt gehasht (als de $username uniek is - en beide wachtwoorden identiek zijn):
     $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 

@@ -29,9 +29,20 @@ session_start();
     if (isset($_GET['action']) && $_GET['action'] == 'passwordsunequal') {
         echo "<h1>The passwords are not equal.</h1>Fill in your new password again and confirm it again.";
     } else if (isset($_GET['action']) && $_GET['action'] == 'usernamealreadyexists') {
-        echo "<h1>Username already in use.</h1>Please choose another username.";
+        echo "<h1>Username already in use.</h1>Please choose another username.<br>Or, if you already have an account:";
+        ?>
+            <a href="/login-systeem/loginpage.php">login</a>
+            <?php
+            echo ". If you forgot your password, click";
+            ?>
+            <a href="/login-systeem/forgotpassword.php">here</a>
+            <?php
+            echo ".<br>";
+            echo "<br>";
+
     }
     ?>
+
 </body>
 
 </html>

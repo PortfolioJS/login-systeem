@@ -17,20 +17,18 @@ $user = $db->fetchUser($username);
 $id = $user['id']; //nodig voor update username/email en ook (!) om te checken of de nieuwe $username al elders in de database staat (zie hieronder)
 
 //de input van het html-formulier komt hier binnen:
-$username = $_POST["newusername"];
+$newusername = $_POST["newusername"];
 $email = $_POST["newemail"];
 $password = $_POST['password'];
 
 //de input wordt hier gevalideerd:
 $formValidation = new FormValidation;
-$username = $formValidation->form_input($username);
+$newusername = $formValidation->form_input($newusername);
 $email = $formValidation->form_input($email);
 $password = $formValidation->form_input($password);
-// print_r($password);
-// exit;
 
 $session = new Session();
-// $session->setLogin($username);
+//$session->setLogin($newusername); //de oude sessie moet nog niet overschreven worden, want die is hieronder nog nodig
 $session->setEmail($email); //nodig voor autoaanvullen bij redirect naar changeaccount
 
 //de pdo connectie (die wordt aangeroepen bij het creëren van een nieuw database-object)
@@ -38,7 +36,7 @@ $dbconnection = new DatabaseConnection;
 $pdo = $dbconnection->connection;
 
 $db = new Database($pdo);
-$user = $db->fetchUser($username); //eerst wordt gecheckt of de (new)$username al bestaat in de database...
+$user = $db->fetchUser($newusername); //eerst wordt gecheckt of de (new)$username al bestaat in de database...
 
 //... als de $username al bestaat (i.c.m. een ANDER $user['id'] dan het $id, want als $user alleen het emailadres wil veranderen, willen we geen foutmelding): redirect naar changeaccount.php + melding 'choose another username')
 if ($user == True && $id != $user['id']) {
@@ -57,18 +55,18 @@ if ($user == True && $id != $user['id']) {
         // $pdo = $dbconnection->connection;
 
         // $db = new Database($pdo);
-        $db->updateUser($username, $email, $id);
+        $db->updateUser($newusername, $email, $id);
     } else {
         header('Location: /login-systeem/changeaccount.php?action=wrongpassword');
         exit;
     }
-} else if ($user == False) { //als de nieuwe gebruikersnaam niet bestaat wordt de array $user opgehaald aan de hand van het $id:
+} else { //als de nieuwe gebruikersnaam niet bestaat wordt de array $user opgehaald aan de hand van het $id:
     $user = $db->fetchUserviaID($id);
 
     if (password_verify($password, $user['password'])) { //als het wachtwoord klopt:
         //de (resterende) input wordt hier in de sessie gezet:
         // $session = new Session();
-        $session->setLogin($username); //de nieuwe $username
+        $session->setLogin($newusername); //de nieuwe $username
         // $session->setEmail($email);
         //de gegevens worden in de database geüpdatet (aan de hand van het $id):
 
@@ -77,8 +75,9 @@ if ($user == True && $id != $user['id']) {
         // $pdo = $dbconnection->connection;
 
         // $db = new Database($pdo);
-        $db->updateUser($username, $email, $id);
+        $db->updateUser($newusername, $email, $id);
     } else {
+        $_SESSION["newusername"] = $newusername; // is nodig voor autoaanvullen changeaccount
         header('Location: /login-systeem/changeaccount.php?action=wrongpassword');
         exit;
     }

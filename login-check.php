@@ -36,7 +36,7 @@ if ($user && password_verify($password, $user['password'])) {
 } else { //LET OP: onderstaand formulier zou beter in een eigen bestand kunnen (POST-REDIRECT-GET)
     echo "<h1>Invalid username and/or password!</h1>"; ?>
     <?php
-    echo "Enter a correct username and password* below or create an ";
+    echo "Enter a correct username and password* below or create an";
     ?>
     <a href="/login-systeem/makeaccount.php">account</a>
     <?php

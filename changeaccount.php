@@ -18,8 +18,10 @@ session_start();
         <label for="newusername">Username:</label><br>
         <input type="text" id="newusername" name="newusername" value="<?php if (isset($_GET['action']) && $_GET['action'] == 'usernamealreadyexists') {
             echo ""; //oftewel als de nieuwe username al wordt gebruikt (in de database) wordt na de redirect vanaf changeaccount2 een leeg veld getoond
+        } else if (isset($_GET['action']) && $_GET['action'] == 'wrongpassword') {
+            echo $_SESSION["newusername"]; //oftewel wanneer het wachtwoord verkeerd is, hoeft de nieuwe gebruikersnaam niet opnieuw ingevuld te worden
         } else {
-            echo $_SESSION["username"]; //oftewel wanneer het reguliere pad wordt gevolgd (geen redirect van p2), dan wordt de sessie die bij de inlog was ingevuld hier opnieuw ingevuld
+            echo $_SESSION["username"]; //oftewel wanneer het reguliere pad wordt gevolgd (geen redirect vanaf changeaccount2), dan wordt de sessie die bij de inlog was ingevuld hier opnieuw ingevuld
         } ?>" maxlength="55" autofocus required><br>
         <label for="email">Email:</label><br>
         <input type="text" id="newemail" name="newemail" value="<?php echo $_SESSION["email"]; ?>" maxlength="55"

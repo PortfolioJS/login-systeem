@@ -55,7 +55,7 @@ $session = new Session();
         </form>
 
         <Logout>
-            <form method="post" action="/login-systeem/loginpage.php">
+            <form method="post" action="/login-systeem/logout.php">
                 <input type="submit" value="Logout">
             </form>
 </body>
